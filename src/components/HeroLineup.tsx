@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { getRobot, type RobotKind } from "@/lib/robots";
-import { RobotAvatar } from "./RobotAvatar";
+import { RobotMedia } from "./RobotMedia";
 
-const LINEUP: [RobotKind, number][] = [["mila", 270], ["bram", 230], ["rik", 280], ["wout", 255], ["joop", 250], ["fenna", 250]];
+const LINEUP: [RobotKind, number][] = [["mila", 250], ["bram", 210], ["rik", 260], ["wout", 235], ["rex", 220], ["joop", 230], ["fenna", 230]];
 const BAND = 78;
 
 /** De zes robots op een zwarte band. Op mobiel een horizontaal scrollende rij. */
@@ -21,7 +21,7 @@ export function HeroLineup() {
             >
               <Link href={`/robots/${kind}`} className="group flex flex-col items-center text-white no-underline hover:text-white" aria-label={`${r.name}, ${r.role}`}>
                 <span className="flex w-full justify-center px-1 transition-transform group-hover:-translate-y-1.5">
-                  <RobotAvatar kind={kind} size={size} label="" fluid />
+                  <RobotMedia kind={kind} size={size} label="" fluid />
                 </span>
                 <span className="flex w-full flex-col items-center justify-center text-center" style={{ height: BAND }}>
                   <span className="font-display text-[22px] font-extrabold tracking-[-0.02em] group-hover:underline">{r.name}</span>

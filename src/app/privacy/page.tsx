@@ -12,13 +12,13 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
     body: (
       <>
         <p>Als je een formulier invult, slaan we op wat je invult: je naam, organisatie, soort locatie, e-mailadres en, als je die geeft, je telefoonnummer, plaats, het aantal kamers of bedden en het werk dat blijft liggen.</p>
-        <p>Bij een aanvraag uit de configurator slaan we ook de ploeg op die je samenstelde, de dienst, het aantal dagen en de weekprijs die je zag. Daarnaast het tijdstip, de prijsvariant en, als je via een campagne kwam, de bron, het medium en de campagnenaam uit de link.</p>
+        <p>Bij een aanvraag uit de configurator slaan we ook de sector op, de ploeg die je samenstelde met aantallen en diensten, en het maandbedrag dat je zag. Bij de flexpool de periode, het soort werk en het aantal robots. Daarnaast het tijdstip, de prijsvariant, de pagina waarop je binnenkwam en, als je via een campagne kwam, de bron, het medium en de campagnenaam uit de link.</p>
       </>
     ),
   },
   {
     title: "Waarom",
-    body: <p>Om contact met je op te nemen over een pilot, een aanvraag of de wachtlijst. En om te leren welke robots, diensten en prijzen het meest gevraagd worden. We gebruiken je gegevens niet voor iets anders en verkopen ze aan niemand.</p>,
+    body: <p>Om contact met je op te nemen over een pilot, een aanvraag, de flexpool of de wachtlijst. En om te leren welke robots, diensten en prijzen het meest gevraagd worden. We gebruiken je gegevens niet voor iets anders en verkopen ze aan niemand.</p>,
   },
   {
     title: "Hoe lang",

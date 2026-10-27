@@ -4,23 +4,13 @@ import { notFound } from "next/navigation";
 import { WaitlistForm } from "@/components/forms/WaitlistForm";
 import { PageShell } from "@/components/PageShell";
 import { Price } from "@/components/Price";
-import { RobotAvatar } from "@/components/RobotAvatar";
+import { robotCta, StatusPill } from "@/components/RobotCard";
+import { RobotMedia } from "@/components/RobotMedia";
 import { TrackView } from "@/components/TrackView";
-import { formatEuro, formatRate } from "@/lib/pricing";
-import { getRobot, robots, type Robot } from "@/lib/robots";
+import { getRobot, pricingModels, robots, type Robot } from "@/lib/robots";
 import { t } from "@/messages";
 
 const p = t.profile;
-
-/** Voorbeeldweek: uren per dienst volgen de diensttijden in robots.json. */
-const EXAMPLE: Partial<Record<Robot["slug"], { unit: string; hours: number }>> = {
-  bram: { unit: "nacht", hours: 8 }, // 22.00 tot 06.00
-  mila: { unit: "dag", hours: 12 }, // dagdienst 07.00 tot 19.00
-  joop: { unit: "dag", hours: 12 }, // 07.00 tot 19.00
-  wout: { unit: "nacht", hours: 12 }, // 19.00 tot 07.00
-};
-
-const STATUS_BG: Record<Robot["status"], string> = { beschikbaar: "#BFEBD8", pilot: "#FFE08A", wachtlijst: "#E6E4E0" };
 
 export function generateStaticParams() {
   return robots.map((r) => ({ slug: r.slug }));
@@ -45,27 +35,14 @@ export default async function ProfilePage({ params }: { params: Promise<{ slug: 
   if (!r) notFound();
 
   const hireable = r.status === "beschikbaar";
-  const example = EXAMPLE[r.slug];
-  const rows = example
-    ? [
-        { label: p.every(example.unit, example.hours), hours: example.hours * 7 },
-        { label: p.weekdays(example.hours), hours: example.hours * 5 },
-      ]
-    : [];
+  const cta = robotCta(r, r.sectors[0]);
+  const model = pricingModels[r.pricing];
 
   const facts: [string, React.ReactNode][] = [
     [p.role, r.role],
     [p.shift, r.shift],
     [p.worksIn, worksIn(r)],
-    [
-      p.rate,
-      r.rate != null ? (
-        <>
-          <Price robot={r} />, {t.price.allIn}
-          {r.slug === "wout" && <>, {t.price.withControl}</>}
-        </>
-      ) : r.status === "pilot" ? t.price.onRequest : t.price.notYet,
-    ],
+    [p.price, <Price key="p" robot={r} />],
     [p.available, hireable ? p.availableFrom : r.status === "pilot" ? p.pilotFrom : p.notYet],
   ];
 
@@ -84,42 +61,44 @@ export default async function ProfilePage({ params }: { params: Promise<{ slug: 
         <div className="wrap flex flex-wrap items-start gap-10 pb-16 pt-6">
           <aside className="flex min-w-0 flex-[1_1_340px] flex-col gap-4 max-lg:order-2 lg:sticky lg:top-6">
             <div className="overflow-hidden rounded-[26px] border-2 border-ink bg-paper">
-              <div className="kicker flex items-center justify-between gap-3 whitespace-nowrap px-[18px] py-3 text-xs" style={{ background: r.band, color: r.bandText }}>
+              <div className="kicker flex items-center justify-between gap-3 whitespace-nowrap px-[18px] py-3 text-[11px] sm:text-xs" style={{ background: r.band, color: r.bandText }}>
                 <span>{t.home.employee} {r.no}</span>
                 <span>{t.status[r.status]}</span>
               </div>
               <div className="flex h-[340px] items-end justify-center overflow-hidden pt-8" style={{ background: r.tint }}>
-                <RobotAvatar kind={r.slug} size={300} />
+                <RobotMedia kind={r.slug} size={300} />
               </div>
               <dl className="m-0 flex flex-col gap-3 p-6 text-[15px]">
                 {facts.map(([k, v]) => (
                   <div key={k} className="flex justify-between gap-4 border-b-2 border-dashed border-line pb-3 last:border-0 last:pb-0">
-                    <dt className="text-muted-2">{k}</dt>
+                    <dt className="shrink-0 text-muted-2">{k}</dt>
                     <dd className="m-0 text-right font-bold">{v}</dd>
                   </div>
                 ))}
               </dl>
               <div className="px-6 pb-6">
-                {hireable ? (
-                  <Link href={`/inhuren?robot=${r.slug}`} className="btn w-full bg-ink text-white hover:text-white">{t.robotsPage.hire(r.name)}</Link>
-                ) : (
-                  <a href="#aanmelden" className="btn w-full bg-ink text-white hover:text-white">
-                    {r.status === "pilot" ? t.robotsPage.joinPilot : t.robotsPage.joinWaitlist}
-                  </a>
-                )}
+                <Link href={hireable ? cta.href : "#aanmelden"} className="btn w-full bg-ink text-white hover:text-white">{cta.label}</Link>
               </div>
             </div>
           </aside>
 
           <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-5">
-            <span className="kicker self-start rounded-full px-3 py-1.5 text-xs" style={{ background: STATUS_BG[r.status] }}>{t.status[r.status]}</span>
+            <div className="self-start"><StatusPill robot={r} long /></div>
             <h1 className="m-0 text-[clamp(56px,8vw,128px)] font-black leading-[0.88]">{p.hello(r.name)}</h1>
             <p className="m-0 max-w-[720px] text-xl font-medium leading-[1.45] sm:text-[22px]">{r.intro}</p>
+            {hireable && (
+              <section aria-labelledby="prijs" className="mt-4 flex max-w-[720px] flex-col gap-2 rounded-[26px] bg-paper p-6">
+                <h2 id="prijs" className="kicker m-0 font-sans text-xs tracking-[0.1em] text-muted-2">{p.priceTitle}</h2>
+                <p className="m-0 font-display text-[clamp(28px,3vw,40px)] font-black leading-none"><Price robot={r} /></p>
+                {r.priceScope && <p className="m-0 text-base leading-normal">{r.priceScope}</p>}
+                <p className="m-0 text-sm leading-normal text-muted-2">{model.explain}</p>
+              </section>
+            )}
           </div>
         </div>
       </div>
 
-      <div className="wrap flex max-w-[1320px] flex-col gap-16 py-16 md:py-24">
+      <div className="wrap flex flex-col gap-16 py-16 md:py-24">
         {r.can.length > 0 && (
           <section aria-labelledby="kan" className="flex flex-col gap-6">
             <h2 id="kan" className="m-0 text-[clamp(36px,4.5vw,64px)] font-black leading-[0.95]">{p.canTitle}</h2>
@@ -139,48 +118,20 @@ export default async function ProfilePage({ params }: { params: Promise<{ slug: 
           </section>
         )}
 
-        <section aria-labelledby="niet" className="flex flex-wrap gap-10 rounded-[32px] bg-stone p-7 sm:p-10">
-          <h2 id="niet" className="m-0 flex-[1_1_300px] text-[clamp(36px,4.5vw,64px)] font-black leading-[0.95]">{p.cannotTitle}</h2>
-          <div className="flex flex-[1_1_420px] flex-col gap-4">
+        <div className="grid gap-5 lg:grid-cols-2">
+          <section aria-labelledby="niet" className="flex flex-col gap-5 rounded-[32px] bg-stone p-7 sm:p-10">
+            <h2 id="niet" className="m-0 text-[clamp(32px,3.5vw,52px)] font-black leading-[0.95]">{p.cannotTitle}</h2>
             <ul className="m-0 flex list-disc flex-col gap-2 pl-5 text-lg leading-snug text-muted marker:text-ink">
               {r.cannot.map((c) => <li key={c}>{c}</li>)}
             </ul>
-            {r.pairing && <p className="m-0 text-base font-semibold">{r.pairing}</p>}
-          </div>
-        </section>
-
-        {rows.length > 0 && (
-          <section aria-labelledby="week" className="flex flex-col gap-6">
-            <h2 id="week" className="m-0 text-[clamp(36px,4.5vw,64px)] font-black leading-[0.95]">{p.weekTitle(r.name)}</h2>
-            <div className="overflow-hidden rounded-[26px] border-2 border-ink">
-              <table className="w-full border-collapse text-[15px] sm:text-base">
-                <caption className="sr-only">{p.weekTitle(r.name)}, tarief <Price robot={r} /> per uur</caption>
-                <thead>
-                  <tr className="bg-ink text-left text-white">
-                    <th scope="col" className="px-3 py-4 sm:px-5">{p.weekExample}</th>
-                    <th scope="col" className="px-3 py-4 sm:px-5">{p.weekHours}</th>
-                    <th scope="col" className="px-3 py-4 sm:px-5">{p.weekCost}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((row) => (
-                    <tr key={row.label} className="border-t-2 border-ink">
-                      <th scope="row" className="px-3 py-4 sm:px-5 text-left font-semibold">{row.label}</th>
-                      <td className="px-3 py-4 sm:px-5">{row.hours}</td>
-                      <td className="px-3 py-4 sm:px-5 font-display text-xl font-black sm:text-2xl">
-                        <Price robot={r} format={(rate) => formatEuro(row.hours * rate)} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="m-0 text-sm text-muted-2">
-              {r.rate != null && <>Uurtarief <Price robot={r} format={formatRate} />, alles inbegrepen. </>}
-              Je betaalt alleen de uren die {r.name} werkt.
-            </p>
           </section>
-        )}
+          {r.pairing && (
+            <section aria-labelledby="samen" className="flex flex-col gap-5 rounded-[32px] border-2 border-ink p-7 sm:p-10">
+              <h2 id="samen" className="m-0 text-[clamp(32px,3.5vw,52px)] font-black leading-[0.95]">{p.pairingTitle}</h2>
+              <p className="m-0 text-xl font-medium leading-normal">{r.pairing}</p>
+            </section>
+          )}
+        </div>
 
         {!hireable && (
           <section id="aanmelden" aria-labelledby="aanmelden-titel" className="flex scroll-mt-6 flex-wrap gap-10">

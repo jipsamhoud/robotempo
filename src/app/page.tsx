@@ -3,7 +3,7 @@ import { Footer } from "@/components/Footer";
 import { PilotForm } from "@/components/forms/PilotForm";
 import { Header } from "@/components/Header";
 import { HeroLineup } from "@/components/HeroLineup";
-import { RobotAvatar } from "@/components/RobotAvatar";
+import { RobotMedia } from "@/components/RobotMedia";
 import { TeamCard } from "@/components/TeamCard";
 import { getRobot, robots, type RobotKind } from "@/lib/robots";
 import { t } from "@/messages";
@@ -13,7 +13,7 @@ const h = t.home;
 const SECTOR_TILES: { id: "hotel" | "zorg" | "beveiliging"; bg: string; dark?: boolean; crew: [RobotKind, number][] }[] = [
   { id: "hotel", bg: "bg-hotel", crew: [["bram", 170], ["mila", 220]] },
   { id: "zorg", bg: "bg-zorg", crew: [["joop", 220], ["bram", 170]] },
-  { id: "beveiliging", bg: "bg-security", dark: true, crew: [["wout", 230]] },
+  { id: "beveiliging", bg: "bg-security", dark: true, crew: [["wout", 210], ["rex", 190]] },
 ];
 
 export default function Home() {
@@ -57,7 +57,7 @@ export default function Home() {
           <h2 id="ploeg" className="m-0 max-w-[900px] text-[clamp(44px,6vw,96px)] font-black leading-[0.9]">{h.teamTitle}</h2>
           <p className="m-0 max-w-[380px] text-[19px] leading-normal text-muted">{h.teamIntro}</p>
         </div>
-        <div className="wrap grid gap-5 pb-20 sm:grid-cols-2 md:pb-[120px] lg:grid-cols-3">
+        <div className="wrap grid gap-5 pb-20 sm:grid-cols-2 md:pb-[120px] lg:grid-cols-3 xl:grid-cols-4">
           {robots.map((r) => <TeamCard key={r.slug} robot={r} />)}
         </div>
       </section>
@@ -71,7 +71,7 @@ export default function Home() {
               return (
                 <Link
                   key={tile.id}
-                  href={`/inhuren?sector=${tile.id}`}
+                  href={`/${tile.id === "hotel" ? "hotels" : tile.id}`}
                   className={`group flex min-h-[520px] flex-col gap-[18px] rounded-[32px] p-7 no-underline sm:p-9 ${tile.bg} ${tile.dark ? "on-dark text-white hover:text-white" : "text-ink hover:text-ink"}`}
                 >
                   <span className={`kicker ${tile.dark ? "text-security-accent" : ""}`}>{t.sectors[tile.id]}</span>
@@ -79,7 +79,7 @@ export default function Home() {
                   <div className="flex min-h-[260px] flex-1 items-end justify-center gap-6">
                     {tile.crew.map(([kind, size]) => (
                       <div key={kind} className="flex min-w-0 flex-col items-center gap-2.5" style={{ flex: `${size} 1 0`, maxWidth: size }}>
-                        <RobotAvatar kind={kind} size={size} fluid />
+                        <RobotMedia kind={kind} size={size} fluid />
                         <span
                           className={`rounded-full border-2 px-3.5 py-[5px] font-display text-base font-extrabold ${tile.dark ? "border-security-accent bg-security-accent text-ink" : "border-ink bg-paper"}`}
                         >
@@ -124,6 +124,17 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="bg-stone" aria-labelledby="flex-titel">
+        <div className="wrap flex flex-wrap items-end justify-between gap-8 py-16 md:py-20">
+          <div className="flex max-w-[760px] flex-col gap-4">
+            <span className="kicker">{h.flexKicker}</span>
+            <h2 id="flex-titel" className="m-0 text-[clamp(36px,4.5vw,64px)] font-black leading-[0.95]">{h.flexTitle}</h2>
+            <p className="m-0 text-lg leading-normal text-muted">{h.flexText}</p>
+          </div>
+          <Link href="/flexpool" className="btn bg-ink text-white hover:text-white">{h.flexCta}</Link>
         </div>
       </section>
 

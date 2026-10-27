@@ -10,7 +10,7 @@ export function PilotForm() {
       form="pilot"
       label="Aanmelden voor een pilot"
       submitLabel={t.forms.pilotSubmit}
-      event={{ name: "pilot_signup" }}
+      event={{ name: "pilot_signup", props: { slug: "algemeen" } }}
       className="rounded-[30px] bg-paper p-6 text-ink sm:p-8"
       note={<p className="m-0 text-sm text-muted-2">{t.forms.pilotNote}</p>}
     >

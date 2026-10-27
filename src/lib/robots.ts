@@ -2,9 +2,8 @@ import data from "@/data/robots.json";
 
 export type Sector = "hotel" | "zorg" | "beveiliging";
 export type Status = "beschikbaar" | "pilot" | "wachtlijst";
-export type RobotKind = "bram" | "mila" | "joop" | "wout" | "fenna" | "rik";
-export type BaseRateKey = keyof typeof data.baseRates;
-export type ShiftId = "nacht" | "dag" | "klok";
+export type RobotKind = "bram" | "mila" | "joop" | "wout" | "rex" | "fenna" | "rik";
+export type PricingModel = "nacht" | "dienstuur" | "maand" | "aanvraag" | "wachtlijst";
 
 export interface Skill {
   name: string;
@@ -19,9 +18,11 @@ export interface Robot {
   sectors: Sector[];
   shift: string;
   shiftShort: string;
-  rate: number | null;
-  productivity: number | null;
-  baseRate: BaseRateKey | null;
+  pricing: PricingModel;
+  price: number | null;
+  priceLabel: string;
+  priceScope: string;
+  avoidedPerUnit: number | null;
   status: Status;
   tint: string;
   band: string;
@@ -35,20 +36,31 @@ export interface Robot {
   tags: string[];
 }
 
-export interface Shift {
-  id: ShiftId;
+export interface PricingModelInfo {
   label: string;
-  sub: string;
-  hours: number;
+  unit: string | null;
+  explain: string;
+}
+
+export interface ConfiguratorSector {
+  id: Sector;
+  label: string;
+  robots: RobotKind[];
+  default: Partial<Record<RobotKind, number>>;
+  pilotOnly: RobotKind[];
 }
 
 export const robots = data.robots as Robot[];
-export const shifts = data.shifts as Shift[];
-export const dayOptions = data.days;
-export const baseRates = data.baseRates;
-export const avoidedFactor = data.avoidedFactor;
+export const pricingModels = data.pricingModels as Record<PricingModel, PricingModelInfo>;
+export const avoidedNote = data.avoidedNote;
+export const configurator = data.configurator as {
+  sectors: ConfiguratorSector[];
+  nightsPerWeek: number[];
+  guardHoursPerNight: number[];
+  weeksPerMonth: number;
+};
 
-export const configuratorRobots = robots.filter((r) => r.configurator);
+export const SECTORS: Sector[] = ["hotel", "zorg", "beveiliging"];
 
 export function getRobot(slug: string): Robot | undefined {
   return robots.find((r) => r.slug === slug);
@@ -56,4 +68,8 @@ export function getRobot(slug: string): Robot | undefined {
 
 export function robotsInSector(sector: Sector | "alle"): Robot[] {
   return sector === "alle" ? robots : robots.filter((r) => r.sectors.includes(sector));
+}
+
+export function getConfiguratorSector(id: string): ConfiguratorSector | undefined {
+  return configurator.sectors.find((s) => s.id === id);
 }

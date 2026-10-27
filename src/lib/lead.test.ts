@@ -26,8 +26,8 @@ describe("validateLead", () => {
   });
 
   it("vraagt bij een aanvraag om minstens één robot", () => {
-    const aanvraag = { ...base, form: "aanvraag", crew: { robots: { bram: 0 }, shift: "nacht", days: 7 } };
+    const aanvraag = { ...base, form: "aanvraag", sector: "hotel", crew: { bram: { count: 0, nights: 7 } } };
     expect(validateLead(aanvraag).ok).toBe(false);
-    expect(validateLead({ ...aanvraag, crew: { robots: { bram: 2 }, shift: "nacht", days: 7 } }).ok).toBe(true);
+    expect(validateLead({ ...aanvraag, crew: { bram: { count: 2, nights: 7 } } }).ok).toBe(true);
   });
 });

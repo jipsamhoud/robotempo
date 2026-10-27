@@ -6,7 +6,7 @@ import { getRobot, type RobotKind } from "@/lib/robots";
 import { t } from "@/messages";
 import { RobotAvatar } from "./RobotAvatar";
 
-const FORMS = ["aanvraag", "pilot", "wachtlijst", "fabrikant"] as const;
+const FORMS = ["aanvraag", "pilot", "wachtlijst", "flexpool", "fabrikant"] as const;
 
 export function Thanks() {
   const params = useSearchParams();

@@ -1,10 +1,13 @@
 {
   "currency": "EUR",
-  "baseRates": {
-    "uitzendkracht": 31.5,
-    "nachtbeveiliger": 52
+  "pricingModels": {
+    "nacht": { "label": "per schone nacht", "unit": "nacht", "explain": "Een vast bedrag per nacht voor een afgesproken oppervlak. Je koopt een schone vloer, geen uren." },
+    "dienstuur": { "label": "per dienstuur", "unit": "uur", "explain": "Elk uur dat je terrein bewaakt wordt. Twee robots die elkaar aflossen tellen als één dienst." },
+    "maand": { "label": "per maand", "unit": "maand", "explain": "Een vaste kracht die altijd klaarstaat, ook als er even niets te doen is." },
+    "aanvraag": { "label": "op aanvraag", "unit": null, "explain": "Nog in pilot. Tarief in overleg." },
+    "wachtlijst": { "label": "nog niet te huren", "unit": null, "explain": "Nog in opleiding. Zet je op de wachtlijst." }
   },
-  "avoidedFactor": 0.5,
+  "avoidedNote": "Indicatie van inhuur die je naar schatting niet meer nodig hebt: op basis van een uitzendtarief van €31,50, een nachtbeveiliger van €52 en wat een robot doet ten opzichte van een mens, voorzichtig gehalveerd. In de pilot meten we jouw werkelijke besparing.",
   "robots": [
     {
       "slug": "bram",
@@ -14,25 +17,26 @@
       "sectors": ["hotel", "zorg"],
       "shift": "Nacht, 22.00 tot 06.00",
       "shiftShort": "Nachtdienst, hotel en zorg",
-      "rate": 8.25,
-      "productivity": 0.6,
-      "baseRate": "uitzendkracht",
+      "pricing": "nacht",
+      "price": 75,
+      "priceLabel": "Vanaf €75 per schone nacht",
+      "priceScope": "Tot ongeveer 2.700 m² vloer per nacht: lobby, restaurant, bar en gangen",
+      "avoidedPerUnit": 87,
       "status": "beschikbaar",
       "tint": "#DCE6FF",
       "band": "#4D7CFF",
       "bandText": "#FFFFFF",
       "configurator": true,
       "pitch": "Veegt, schrobt, zuigt en dweilt lobby, gangen en restaurantvloer terwijl iedereen slaapt. Vult zelf water bij en laadt zelf op.",
-      "intro": "Ik maak vloeren schoon als iedereen slaapt. Lobby, gangen, restaurant. Ik vul zelf water bij, rij zelf naar mijn laadpunt en ga daarna verder waar ik gebleven was. Om zeven uur ben ik klaar en staat er een schone vloer.",
+      "intro": "Ik maak vloeren schoon als iedereen slaapt. Lobby, gangen, restaurant. Ik doe zo'n 700 tot 1.000 m² per uur, vul zelf water bij en rij zelf naar mijn laadpunt. Na drie tot vier uur ben ik klaar, en om zeven uur staat er een schone vloer.",
       "can": [
         { "name": "Vegen en zuigen", "note": "Harde vloeren en vloerkleed in openbare ruimtes." },
-        { "name": "Schrobben", "note": "Drie tot vier uur per lading, daarna laadt hij zelf op." },
-        { "name": "Dweilen", "note": "Tot acht uur achter elkaar." },
+        { "name": "Schrobben en dweilen", "note": "700 tot 1.000 m² per uur, volgens de fabrikant." },
         { "name": "Zelf water bijvullen", "note": "Via een vast station, zonder dat iemand hoeft te helpen." },
         { "name": "Rapporteert", "note": "Je ziet elke ochtend welke ruimtes klaar zijn." }
       ],
       "cannot": ["Toiletten, tafels en andere oppervlakken", "Hoeken en plinten zo grondig als een mens", "Trappen", "Ruimtes met veel losse spullen op de vloer"],
-      "pairing": "Ik werk het best naast een schoonmaker die de rest doet. Die kan zich dan richten op de kamers.",
+      "pairing": "Ik werk het best naast een schoonmaker die de randen, vlekken en toiletten doet. Die kan zich dan richten op de kamers.",
       "tags": ["Schrobben", "Dweilen", "Zuigen", "Zelf opladen"]
     },
     {
@@ -43,9 +47,11 @@
       "sectors": ["hotel"],
       "shift": "Dag en nacht",
       "shiftShort": "Dag en nacht, hotel",
-      "rate": 4.95,
-      "productivity": 0.4,
-      "baseRate": "uitzendkracht",
+      "pricing": "maand",
+      "price": 1650,
+      "priceLabel": "€1.650 per maand",
+      "priceScope": "Dag en nacht beschikbaar, onbeperkt aantal ritten",
+      "avoidedPerUnit": 2100,
       "status": "beschikbaar",
       "tint": "#FFE1D3",
       "band": "#FF5A1F",
@@ -71,9 +77,11 @@
       "sectors": ["zorg"],
       "shift": "Dag, 07.00 tot 19.00",
       "shiftShort": "Dagdienst, zorg",
-      "rate": 5.5,
-      "productivity": 0.4,
-      "baseRate": "uitzendkracht",
+      "pricing": "maand",
+      "price": 2250,
+      "priceLabel": "€2.250 per maand",
+      "priceScope": "Vaste rondes van 07.00 tot 19.00, zeven dagen per week",
+      "avoidedPerUnit": 2625,
       "status": "beschikbaar",
       "tint": "#D3F2E6",
       "band": "#12A37A",
@@ -99,25 +107,56 @@
       "sectors": ["beveiliging"],
       "shift": "Nacht, 19.00 tot 07.00",
       "shiftShort": "Nachtdienst, beveiliging",
-      "rate": 18,
-      "productivity": 1.0,
-      "baseRate": "nachtbeveiliger",
+      "pricing": "dienstuur",
+      "price": 18,
+      "priceLabel": "€18 per dienstuur",
+      "priceScope": "Per robot per bewaakt uur, inclusief meldkamer. Uitrukken bij een melding wordt per keer doorberekend door onze beveiligingspartner.",
+      "avoidedPerUnit": 26,
       "status": "beschikbaar",
       "tint": "#DDE5EF",
       "band": "#16233A",
       "bandText": "#FFFFFF",
       "configurator": true,
       "pitch": "Loopt de hele nacht vaste rondes over je terrein of door je garage. Legt beeld, warmte en geluid vast en meldt elke afwijking direct aan de meldkamer. Ingrijpen laat hij over aan de beveiliger.",
-      "intro": "Ik loop de nachtronde. Over je terrein, langs de hekken, door de garage. Ik kijk, luister en meet warmte, en als er iets afwijkt, ziet de meldkamer het direct. Ingrijpen doe ik niet: daarvoor komt een beveiliger.",
+      "intro": "Ik loop de nachtronde. Over je terrein, langs de hekken, door de garage. Ik kijk, luister en meet warmte. Als er iets afwijkt, kijkt de meldkamer live met me mee en spreekt via mijn luidspreker. Is het echt mis, dan komt er een beveiliger.",
       "can": [
-        { "name": "Vaste rondes", "note": "De hele nacht, buiten en binnen." },
-        { "name": "Beeld, warmte en geluid", "note": "Vastleggen en afwijkingen melden." },
-        { "name": "Hekken, deuren en verlichting", "note": "Zien en melden of iets openstaat of uit is." },
-        { "name": "Samen met een meldkamer", "note": "Via een beveiligingsbedrijf met vergunning." }
+        { "name": "Vaste rondes", "note": "De hele nacht, buiten en binnen, op vlak terrein." },
+        { "name": "Beeld, warmte en geluid", "note": "Vastleggen en afwijkingen direct melden." },
+        { "name": "Aanspreken op afstand", "note": "De meldkamer spreekt via mijn luidspreker." },
+        { "name": "Hekken, deuren en verlichting", "note": "Zien en melden of iets openstaat of uit is." }
       ],
-      "cannot": ["Mensen aanspreken of aanhouden", "Ingrijpen bij een incident", "Trappen en ruw terrein", "Bewaken in de openbare ruimte"],
+      "cannot": ["Mensen aanhouden of fysiek ingrijpen", "Trappen en ruw terrein, daarvoor is Rex", "Bewaken in de openbare ruimte", "Een hele nacht rijden op één lading. Tijdens het laden staat hij op zijn station als vaste camerapost"],
       "pairing": "Twee robots en één mobiele beveiliger in plaats van drie beveiligers.",
       "tags": ["Rondes", "Camera en warmte", "Melden", "Buiten"]
+    },
+    {
+      "slug": "rex",
+      "no": "0007",
+      "name": "Rex",
+      "role": "Terreinspecialist",
+      "sectors": ["beveiliging"],
+      "shift": "Nacht, in ploeg met Wout",
+      "shiftShort": "Nacht, ruw terrein en bouwplaatsen",
+      "pricing": "aanvraag",
+      "price": null,
+      "priceLabel": "Pilot, tarief op aanvraag",
+      "priceScope": "",
+      "avoidedPerUnit": null,
+      "status": "pilot",
+      "tint": "#FFF1C2",
+      "band": "#F2B705",
+      "bandText": "#111111",
+      "configurator": false,
+      "pitch": "Robothond voor terrein waar wielen niet komen: grind, modder, trappen en bouwplaatsen. Werkt samen met Wout, die de lange vlakke rondes loopt. Zijn accu gaat 4 tot 6 uur mee, dus in een nacht lossen ze elkaar af.",
+      "intro": "Ik loop waar wielen vastlopen. Over grind, door modder, de trap op naar het dak, langs de steigers op een bouwplaats. Ik ben waterdicht en kijk overal even rond. Een hele nacht red ik niet op één accu, daarom werk ik samen met Wout.",
+      "can": [
+        { "name": "Ruw terrein en trappen", "note": "Grind, modder, hellingen en trappen." },
+        { "name": "Waterdicht", "note": "Ook in de regen aan het werk." },
+        { "name": "Beeld en melden", "note": "Zelfde meldkamer als Wout." }
+      ],
+      "cannot": ["Een hele nacht op één accu, 4 tot 6 uur", "Mensen aanhouden of fysiek ingrijpen", "Bewaken in de openbare ruimte"],
+      "pairing": "Rex doet het lastige terrein, Wout de lange rondes. Samen één nachtploeg.",
+      "tags": ["Robothond", "Trappen", "Ruw terrein", "Waterdicht"]
     },
     {
       "slug": "fenna",
@@ -127,9 +166,11 @@
       "sectors": ["hotel"],
       "shift": "Dag",
       "shiftShort": "Dagdienst, hotel",
-      "rate": null,
-      "productivity": null,
-      "baseRate": null,
+      "pricing": "aanvraag",
+      "price": null,
+      "priceLabel": "Pilot, tarief op aanvraag",
+      "priceScope": "",
+      "avoidedPerUnit": null,
       "status": "pilot",
       "tint": "#E9DFFF",
       "band": "#9B5CF6",
@@ -154,9 +195,11 @@
       "sectors": ["hotel", "zorg"],
       "shift": "Nog niet",
       "shiftShort": "In opleiding",
-      "rate": null,
-      "productivity": null,
-      "baseRate": null,
+      "pricing": "wachtlijst",
+      "price": null,
+      "priceLabel": "Nog niet te huren",
+      "priceScope": "",
+      "avoidedPerUnit": null,
       "status": "wachtlijst",
       "tint": "#E6E4E0",
       "band": "#111111",
@@ -167,13 +210,17 @@
       "can": [],
       "cannot": ["Nog geen taak die op locatie gemeten is"],
       "pairing": "",
-      "tags": ["Humanoïde", "In ontwikkeling"]
+      "tags": ["Humanoïde", "In opleiding"]
     }
   ],
-  "shifts": [
-    { "id": "nacht", "label": "Nachtdienst", "sub": "22.00 tot 06.00, 8 uur", "hours": 8 },
-    { "id": "dag", "label": "Dagdienst", "sub": "07.00 tot 19.00, 12 uur", "hours": 12 },
-    { "id": "klok", "label": "Rond de klok", "sub": "20 uur, met laadpauzes", "hours": 20 }
-  ],
-  "days": [7, 5]
+  "configurator": {
+    "sectors": [
+      { "id": "hotel", "label": "Hotel", "robots": ["bram", "mila"], "default": { "bram": 1, "mila": 1 }, "pilotOnly": ["fenna"] },
+      { "id": "zorg", "label": "Zorglocatie", "robots": ["bram", "joop"], "default": { "bram": 1, "joop": 1 }, "pilotOnly": [] },
+      { "id": "beveiliging", "label": "Terrein en beveiliging", "robots": ["wout"], "default": { "wout": 1 }, "pilotOnly": ["rex"] }
+    ],
+    "nightsPerWeek": [7, 5],
+    "guardHoursPerNight": [8, 12],
+    "weeksPerMonth": 4.33
+  }
 }

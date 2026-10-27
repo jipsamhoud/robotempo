@@ -4,7 +4,7 @@ import type { RobotKind } from "./robots";
 
 export const ogSize = { width: 1200, height: 630 };
 
-const lineup: [RobotKind, number][] = [["mila", 230], ["bram", 200], ["rik", 240], ["wout", 220], ["joop", 215], ["fenna", 215]];
+const LINEUP: [RobotKind, number][] = [["mila", 210], ["bram", 180], ["rik", 220], ["wout", 200], ["rex", 190], ["joop", 200], ["fenna", 200]];
 
 let font: Promise<ArrayBuffer | null> | null = null;
 
@@ -22,8 +22,8 @@ function archivo(): Promise<ArrayBuffer | null> {
   return font;
 }
 
-/** De Open Graph-afbeelding: de robotrij op oranje, met een kop. */
-export async function ogImage(title: string) {
+/** De Open Graph-afbeelding: de robotrij op oranje, met een kop. Sectorpagina's geven hun eigen robots mee. */
+export async function ogImage(title: string, lineup: [RobotKind, number][] = LINEUP) {
   const data = await archivo();
   return new ImageResponse(
     (

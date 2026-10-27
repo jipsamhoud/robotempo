@@ -11,18 +11,19 @@ export function Footer() {
           <div className={col}>
             <h2 className="font-sans text-base font-bold tracking-normal text-white">{t.footer.services}</h2>
             {t.footer.serviceLinks.map((s) => (
-              <Link key={s} href="/robots" className={link}>{s}</Link>
+              <Link key={s.href} href={s.href} className={link}>{s.label}</Link>
             ))}
           </div>
           <div className={col}>
             <h2 className="font-sans text-base font-bold tracking-normal text-white">{t.footer.sectors}</h2>
-            <Link href="/robots?sector=hotel" className={link}>{t.sectors.hotel}</Link>
-            <Link href="/robots?sector=zorg" className={link}>{t.sectors.zorg}</Link>
-            <Link href="/robots?sector=beveiliging" className={link}>{t.sectors.beveiliging}</Link>
+            <Link href="/hotels" className={link}>{t.sectors.hotel}</Link>
+            <Link href="/zorg" className={link}>{t.sectors.zorg}</Link>
+            <Link href="/beveiliging" className={link}>{t.sectors.beveiliging}</Link>
           </div>
           <div className={col}>
             <h2 className="font-sans text-base font-bold tracking-normal text-white">{t.footer.company}</h2>
             <Link href="/#belofte" className={link}>{t.footer.promise}</Link>
+            <Link href="/flexpool" className={link}>{t.footer.flexpool}</Link>
             <Link href="/#pilot" className={link}>{t.footer.pilot}</Link>
             <a href="mailto:hallo@robotempo.com" className={link}>{t.footer.contact}</a>
             <Link href="/privacy" className={link}>{t.footer.privacy}</Link>

@@ -1,7 +1,7 @@
 "use client";
 
 import { flattenLead, type FormType, type LeadPayload } from "./lead";
-import { getUtm, getVariant } from "./variant";
+import { getLandingPage, getUtm, getVariant } from "./variant";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const isDemo = process.env.NEXT_PUBLIC_DEMO === "1";
@@ -11,14 +11,16 @@ const SUBJECTS: Record<FormType, string> = {
   pilot: "Pilotaanmelding",
   aanvraag: "Aanvraag ploeg",
   wachtlijst: "Wachtlijst of pilot",
+  flexpool: "Flexpool",
   fabrikant: "Fabrikant",
 };
 
 export interface SubmitInput {
   form: FormType;
   fields: Record<string, string>;
+  sector?: string;
   crew?: LeadPayload["crew"];
-  priceWeek?: number | null;
+  priceMonth?: number | null;
   website?: string;
 }
 
@@ -31,6 +33,7 @@ export async function submitLead(input: SubmitInput): Promise<void> {
     ...input,
     variant: getVariant(),
     utm: getUtm(),
+    landingPage: getLandingPage(),
     submittedAt: new Date().toISOString(),
   };
 

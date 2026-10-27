@@ -2,12 +2,14 @@ import { getVariant } from "./variant";
 
 export type EventName =
   | "robot_profile_view"
+  | "sector_page_view"
   | "filter_used"
   | "configurator_start"
   | "crew_changed"
   | "request_submitted"
   | "pilot_signup"
   | "waitlist_signup"
+  | "flexpool_request"
   | "manufacturer_signup";
 
 type Props = Record<string, string | number | boolean>;

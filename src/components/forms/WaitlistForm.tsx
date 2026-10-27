@@ -10,16 +10,16 @@ export function WaitlistForm({ robot }: { robot: Robot }) {
   const pilot = robot.status === "pilot";
   return (
     <LeadForm
-      form="wachtlijst"
+      form={pilot ? "pilot" : "wachtlijst"}
       label={pilot ? t.profile.pilotFormTitle(robot.name) : t.profile.waitFormTitle(robot.name)}
       submitLabel={pilot ? t.forms.pilotSubmit : t.forms.waitlistSubmit}
-      event={{ name: "waitlist_signup", props: { slug: robot.slug } }}
+      event={{ name: pilot ? "pilot_signup" : "waitlist_signup", props: { slug: robot.slug } }}
       thanksQuery={{ robot: robot.slug }}
       className="rounded-[26px] border-2 border-ink bg-paper p-6"
       buttonClassName="bg-ink text-white"
     >
       <input type="hidden" name="robot" value={robot.slug} />
-      <input type="hidden" name="list" value={pilot ? "pilot" : "wachtlijst"} />
+      <input type="hidden" name="sector" value={robot.sectors[0]} />
       <Row>
         <TextField label={t.forms.name} name="name" autoComplete="name" />
         <TextField label={t.forms.organisation} name="organisation" autoComplete="organization" />
