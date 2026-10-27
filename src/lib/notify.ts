@@ -1,5 +1,5 @@
 import type { LeadPayload } from "./lead";
-import { flattenLead } from "./storage";
+import { flattenLead } from "./lead";
 
 const escape = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 

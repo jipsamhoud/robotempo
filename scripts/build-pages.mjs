@@ -1,5 +1,6 @@
 // Statische demo voor GitHub Pages. De API-route kan niet mee in een export,
-// dus die gaat even opzij en formulieren draaien in demomodus.
+// dus die gaat even opzij. Met NEXT_PUBLIC_WEB3FORMS_KEY gaan formulieren als e-mail naar de inbox,
+// zonder sleutel draaien ze in demomodus.
 import { execSync } from "node:child_process";
 import { existsSync, renameSync, writeFileSync } from "node:fs";
 
@@ -10,7 +11,7 @@ if (existsSync(api)) renameSync(api, parked);
 try {
   execSync("next build", {
     stdio: "inherit",
-    env: { ...process.env, PAGES_EXPORT: "1", NEXT_PUBLIC_DEMO: "1" },
+    env: { ...process.env, PAGES_EXPORT: "1", NEXT_PUBLIC_DEMO: process.env.NEXT_PUBLIC_WEB3FORMS_KEY ? "" : "1" },
   });
   writeFileSync("out/.nojekyll", "");
 } finally {

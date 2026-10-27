@@ -1,4 +1,5 @@
-import { flattenLead, type LeadStore } from "./index";
+import { flattenLead } from "../lead";
+import type { LeadStore } from "./index";
 
 export const airtableAdapter: LeadStore = {
   name: "airtable",
