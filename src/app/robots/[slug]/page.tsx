@@ -82,9 +82,9 @@ export default async function ProfilePage({ params }: { params: Promise<{ slug: 
       <TrackView event="robot_profile_view" props={{ slug: r.slug }} />
       <div className="bg-brand">
         <div className="wrap flex flex-wrap items-start gap-10 pb-16 pt-6">
-          <aside className="flex min-w-0 flex-[1_1_340px] flex-col gap-4 lg:sticky lg:top-6">
+          <aside className="flex min-w-0 flex-[1_1_340px] flex-col gap-4 max-lg:order-2 lg:sticky lg:top-6">
             <div className="overflow-hidden rounded-[26px] border-2 border-ink bg-paper">
-              <div className="kicker flex items-center justify-between px-[18px] py-3 text-xs" style={{ background: r.band, color: r.bandText }}>
+              <div className="kicker flex items-center justify-between gap-3 whitespace-nowrap px-[18px] py-3 text-xs" style={{ background: r.band, color: r.bandText }}>
                 <span>{t.home.employee} {r.no}</span>
                 <span>{t.status[r.status]}</span>
               </div>
@@ -142,7 +142,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ slug: 
         <section aria-labelledby="niet" className="flex flex-wrap gap-10 rounded-[32px] bg-stone p-7 sm:p-10">
           <h2 id="niet" className="m-0 flex-[1_1_300px] text-[clamp(36px,4.5vw,64px)] font-black leading-[0.95]">{p.cannotTitle}</h2>
           <div className="flex flex-[1_1_420px] flex-col gap-4">
-            <ul className="m-0 pl-5 text-lg leading-[1.85] text-muted">
+            <ul className="m-0 flex list-disc flex-col gap-2 pl-5 text-lg leading-snug text-muted marker:text-ink">
               {r.cannot.map((c) => <li key={c}>{c}</li>)}
             </ul>
             {r.pairing && <p className="m-0 text-base font-semibold">{r.pairing}</p>}
@@ -152,22 +152,22 @@ export default async function ProfilePage({ params }: { params: Promise<{ slug: 
         {rows.length > 0 && (
           <section aria-labelledby="week" className="flex flex-col gap-6">
             <h2 id="week" className="m-0 text-[clamp(36px,4.5vw,64px)] font-black leading-[0.95]">{p.weekTitle(r.name)}</h2>
-            <div className="overflow-x-auto rounded-[26px] border-2 border-ink">
-              <table className="w-full min-w-[480px] border-collapse text-base">
+            <div className="overflow-hidden rounded-[26px] border-2 border-ink">
+              <table className="w-full border-collapse text-[15px] sm:text-base">
                 <caption className="sr-only">{p.weekTitle(r.name)}, tarief <Price robot={r} /> per uur</caption>
                 <thead>
                   <tr className="bg-ink text-left text-white">
-                    <th scope="col" className="px-5 py-4">{p.weekExample}</th>
-                    <th scope="col" className="px-5 py-4">{p.weekHours}</th>
-                    <th scope="col" className="px-5 py-4">{p.weekCost}</th>
+                    <th scope="col" className="px-3 py-4 sm:px-5">{p.weekExample}</th>
+                    <th scope="col" className="px-3 py-4 sm:px-5">{p.weekHours}</th>
+                    <th scope="col" className="px-3 py-4 sm:px-5">{p.weekCost}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rows.map((row) => (
                     <tr key={row.label} className="border-t-2 border-ink">
-                      <th scope="row" className="px-5 py-4 text-left font-semibold">{row.label}</th>
-                      <td className="px-5 py-4">{row.hours}</td>
-                      <td className="px-5 py-4 font-display text-2xl font-black">
+                      <th scope="row" className="px-3 py-4 sm:px-5 text-left font-semibold">{row.label}</th>
+                      <td className="px-3 py-4 sm:px-5">{row.hours}</td>
+                      <td className="px-3 py-4 sm:px-5 font-display text-xl font-black sm:text-2xl">
                         <Price robot={r} format={(rate) => formatEuro(row.hours * rate)} />
                       </td>
                     </tr>

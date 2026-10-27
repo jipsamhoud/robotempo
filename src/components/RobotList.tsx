@@ -78,7 +78,7 @@ export function RobotList({ rates }: { rates: Record<string, ReactNode> }) {
                 </div>
                 <div className="flex w-full flex-col gap-2.5 lg:w-[260px]">
                   <dl className="m-0 grid grid-cols-2 gap-2 text-sm">
-                    <div className="rounded-[14px] bg-stone p-2.5"><dt className="text-muted-2">{p.shift}</dt><dd className="m-0 font-bold">{r.shift}</dd></div>
+                    <div className="rounded-[14px] bg-stone p-2.5"><dt className="text-muted-2">{p.shift}</dt><dd className="m-0 font-bold">{r.shift.split(",")[0]}</dd></div>
                     <div className="rounded-[14px] bg-stone p-2.5"><dt className="text-muted-2">{p.perHour}</dt><dd className="m-0 font-bold">{rates[r.slug]}</dd></div>
                   </dl>
                   <Link href={`/robots/${r.slug}`} className="btn border-ink bg-paper px-4 py-3 text-base text-ink">

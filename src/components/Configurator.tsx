@@ -36,6 +36,8 @@ export function Configurator() {
   const variant = useVariant();
   const quote = quoteCrew({ crew, shift, days, variant });
   const formTop = useRef<HTMLHeadingElement>(null);
+  const crewBox = useRef<HTMLElement>(null);
+  const [crewInView, setCrewInView] = useState(false);
   const changed = useRef(false);
 
   useEffect(() => {
@@ -57,6 +59,15 @@ export function Configurator() {
     );
     return () => clearTimeout(id);
   }, [crew, shift, days, quote.costWeek]);
+
+  // De prijsbalk op mobiel verdwijnt zodra het overzicht zelf in beeld is, of erboven ligt.
+  useEffect(() => {
+    const el = crewBox.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setCrewInView(e.isIntersecting || e.boundingClientRect.top < 0));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [step]);
 
   function update(fn: () => void) {
     changed.current = true;
@@ -82,7 +93,7 @@ export function Configurator() {
 
   return (
     <div className="flex flex-col gap-8">
-      <ol className="m-0 flex list-none flex-wrap gap-2 p-0" aria-label={c.stepsLabel}>
+      <ol className="m-0 flex list-none flex-wrap gap-1.5 p-0 sm:gap-2" aria-label={c.stepsLabel}>
         {c.steps.map((label, i) => {
           const current = (step === "kies" && i === 0) || (step === "gegevens" && i === 1);
           const done = step === "gegevens" && i === 0;
@@ -90,7 +101,7 @@ export function Configurator() {
             <li
               key={label}
               aria-current={current ? "step" : undefined}
-              className={`flex items-center gap-2 rounded-full border-2 border-ink px-4 py-2 text-sm font-bold ${current ? "bg-ink text-white" : done ? "bg-paper" : "bg-transparent opacity-70"}`}
+              className={`flex items-center gap-1.5 rounded-full border-2 border-ink px-3 py-1.5 text-xs font-bold sm:gap-2 sm:px-4 sm:py-2 sm:text-sm ${current ? "bg-ink text-white" : done ? "bg-paper" : "bg-transparent opacity-70"}`}
             >
               <span className="font-display">{String(i + 1).padStart(2, "0")}</span> {label}
             </li>
@@ -108,24 +119,27 @@ export function Configurator() {
                 const set = (v: number) => update(() => setCrew((cur) => ({ ...cur, [r.slug]: Math.max(0, Math.min(MAX_PER_ROBOT, v)) })));
                 const rate = rateFor(r, variant)!;
                 return (
-                  <div key={r.slug} className="flex flex-wrap items-center gap-4 rounded-[20px] bg-stone p-3">
-                    <div className="flex size-20 shrink-0 items-end justify-center overflow-hidden rounded-2xl pt-2" style={{ background: r.tint }}>
+                  <div key={r.slug} className="flex items-center gap-3 rounded-[20px] bg-stone p-3 sm:gap-4">
+                    <div className="hidden size-20 shrink-0 items-end justify-center overflow-hidden rounded-2xl pt-2 sm:flex" style={{ background: r.tint }}>
                       <RobotAvatar kind={r.slug} size={70} label="" />
                     </div>
-                    <div className="min-w-0 flex-[1_1_180px]">
+                    <div className="min-w-0 flex-1 pl-1 sm:pl-0">
                       <div className="font-display text-2xl font-black leading-tight">
                         <Link href={`/robots/${r.slug}`} className="no-underline hover:underline">{r.name}</Link>
-                        <span className="font-sans text-base font-semibold">, {r.role.toLowerCase()}</span>
+                        <span className="block font-sans text-sm font-semibold sm:inline sm:text-base">
+                          <span className="hidden sm:inline">, </span>
+                          {r.role}
+                        </span>
                       </div>
                       <div className="text-sm text-muted-2">
                         {formatRate(rate)} {t.price.perHour}
                         {r.slug === "wout" && `, ${t.price.withControl}`}
                       </div>
                     </div>
-                    <div className="flex items-center gap-2" role="group" aria-label={c.count(r.name)}>
-                      <button type="button" onClick={() => set(n - 1)} disabled={n === 0} aria-label={c.less(r.name)} className="size-12 cursor-pointer rounded-full border-2 border-ink bg-paper text-2xl font-bold disabled:cursor-not-allowed disabled:opacity-40">−</button>
-                      <output aria-live="polite" aria-label={c.count(r.name)} className="min-w-8 text-center font-display text-[28px] font-black">{n}</output>
-                      <button type="button" onClick={() => set(n + 1)} disabled={n === MAX_PER_ROBOT} aria-label={c.more(r.name)} className="size-12 cursor-pointer rounded-full border-2 border-ink bg-ink text-2xl font-bold text-white disabled:cursor-not-allowed disabled:opacity-40">+</button>
+                    <div className="flex shrink-0 items-center gap-1.5 sm:gap-2" role="group" aria-label={c.count(r.name)}>
+                      <button type="button" onClick={() => set(n - 1)} disabled={n === 0} aria-label={c.less(r.name)} className="size-11 cursor-pointer rounded-full border-2 border-ink bg-paper text-2xl font-bold disabled:cursor-not-allowed disabled:opacity-40 sm:size-12">−</button>
+                      <output aria-live="polite" aria-label={c.count(r.name)} className="min-w-7 text-center font-display text-[26px] font-black sm:min-w-8 sm:text-[28px]">{n}</output>
+                      <button type="button" onClick={() => set(n + 1)} disabled={n === MAX_PER_ROBOT} aria-label={c.more(r.name)} className="size-11 cursor-pointer rounded-full border-2 border-ink bg-ink text-2xl font-bold text-white disabled:cursor-not-allowed disabled:opacity-40 sm:size-12">+</button>
                     </div>
                   </div>
                 );
@@ -165,7 +179,7 @@ export function Configurator() {
             </section>
           </div>
 
-          <aside className="on-dark flex w-full flex-[1_1_340px] flex-col gap-4 rounded-[26px] bg-ink p-6 text-white sm:p-7 lg:sticky lg:top-6" aria-labelledby="c-crew">
+          <aside className="on-dark flex w-full flex-[1_1_340px] scroll-mt-4 flex-col gap-4 rounded-[26px] bg-ink p-6 text-white sm:p-7 lg:sticky lg:top-6" aria-labelledby="c-crew" id="ploeg" ref={crewBox}>
             <h2 id="c-crew" className="m-0 text-[28px] font-black text-white">{c.crewTitle}</h2>
             {quote.lines.length ? summary : <p className="m-0 text-[15px] text-[#CFCFCF]">{c.empty}</p>}
             <div className="flex flex-col gap-1 border-t border-[#3A3A3A] pt-4" aria-live="polite">
@@ -183,6 +197,19 @@ export function Configurator() {
             </button>
             <span className="text-center text-[13px] text-[#B5B5B5]">{c.smallPrint}</span>
           </aside>
+
+          {/* Op mobiel staat het overzicht onderaan; deze balk houdt de weekprijs in beeld. */}
+          <div className={`on-dark fixed inset-x-0 bottom-0 z-20 border-t border-[#3A3A3A] bg-ink px-4 py-3 text-white transition-transform lg:hidden ${crewInView ? "translate-y-full" : ""}`} aria-hidden="true">
+            <div className="mx-auto flex max-w-[640px] items-center justify-between gap-3">
+              <div className="flex flex-col">
+                <span className="text-xs text-[#CFCFCF]">{c.perWeek}</span>
+                <span className="font-display text-[28px] font-black leading-none text-brand">{formatEuro(quote.costWeek)}</span>
+              </div>
+              <a href="#ploeg" tabIndex={-1} className="btn bg-brand px-5 py-3 text-base text-ink hover:text-ink">
+                {c.crewTitle}
+              </a>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="flex flex-wrap items-start gap-6">

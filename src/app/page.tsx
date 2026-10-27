@@ -41,11 +41,12 @@ export default function Home() {
       </div>
 
       <section className="bg-ink text-white" aria-label="Diensten">
-        <ul className="wrap m-0 flex list-none flex-wrap items-center gap-x-[30px] gap-y-3.5 pb-[26px] pt-[22px] font-display text-[clamp(22px,3vw,30px)] font-extrabold tracking-[-0.02em]">
+        <ul className="wrap m-0 flex list-none flex-wrap gap-x-5 gap-y-2 pb-[26px] pt-[22px] font-display text-[clamp(19px,5vw,24px)] font-extrabold tracking-[-0.02em] lg:flex-nowrap lg:items-center lg:justify-between lg:gap-4 lg:text-[clamp(18px,1.85vw,28px)]">
           {h.services.map((s, i) => (
-            <li key={s} className="flex items-center gap-x-[30px]">
-              {s}
-              {i < h.services.length - 1 && <span className="text-brand" aria-hidden="true">●</span>}
+            <li key={s} className="flex items-center gap-2.5 lg:contents">
+              <span className="text-brand lg:hidden" aria-hidden="true">●</span>
+              <span>{s}</span>
+              {i < h.services.length - 1 && <span className="hidden text-brand lg:inline" aria-hidden="true">●</span>}
             </li>
           ))}
         </ul>
@@ -56,7 +57,7 @@ export default function Home() {
           <h2 id="ploeg" className="m-0 max-w-[900px] text-[clamp(44px,6vw,96px)] font-black leading-[0.9]">{h.teamTitle}</h2>
           <p className="m-0 max-w-[380px] text-[19px] leading-normal text-muted">{h.teamIntro}</p>
         </div>
-        <div className="wrap grid grid-cols-[repeat(auto-fill,minmax(min(280px,100%),1fr))] gap-5 pb-20 md:pb-[120px]">
+        <div className="wrap grid gap-5 pb-20 sm:grid-cols-2 md:pb-[120px] lg:grid-cols-3">
           {robots.map((r) => <TeamCard key={r.slug} robot={r} />)}
         </div>
       </section>
@@ -135,11 +136,11 @@ export default function Home() {
           <div className="grid flex-[1_1_560px] grid-cols-[repeat(auto-fit,minmax(min(260px,100%),1fr))] gap-5">
             <div className="rounded-[26px] border-2 border-ink p-7">
               <h3 className="mb-3.5 mt-0 text-2xl font-extrabold">{h.canTitle}</h3>
-              <ul className="m-0 pl-5 text-[17px] leading-[1.85] text-muted">{h.can.map((c) => <li key={c}>{c}</li>)}</ul>
+              <ul className="m-0 flex list-disc flex-col gap-2 pl-5 text-[17px] leading-snug text-muted marker:text-brand">{h.can.map((c) => <li key={c}>{c}</li>)}</ul>
             </div>
             <div className="rounded-[26px] border-2 border-ink bg-stone p-7">
               <h3 className="mb-3.5 mt-0 text-2xl font-extrabold">{h.cannotTitle}</h3>
-              <ul className="m-0 pl-5 text-[17px] leading-[1.85] text-muted">{h.cannot.map((c) => <li key={c}>{c}</li>)}</ul>
+              <ul className="m-0 flex list-disc flex-col gap-2 pl-5 text-[17px] leading-snug text-muted marker:text-ink">{h.cannot.map((c) => <li key={c}>{c}</li>)}</ul>
             </div>
           </div>
         </div>

@@ -34,6 +34,9 @@
   h1, h2, h3 {
     font-family: var(--font-display);
     letter-spacing: -0.035em;
+    /* Archivo heeft een smalle spatie; met de krappe letterafstand plakken woorden anders aan elkaar. */
+    word-spacing: 0.08em;
+    line-height: 1.05;
   }
   a:hover { color: var(--color-brand-dark); }
   :focus-visible {

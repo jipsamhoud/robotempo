@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="on-dark border-t border-[#2A2A2A] bg-ink text-[#CFCFCF]">
       <div className="wrap flex flex-col gap-14 pb-10 pt-[72px]">
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-8 text-base">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 text-base md:grid-cols-4 md:gap-8">
           <div className={col}>
             <h2 className="font-sans text-base font-bold tracking-normal text-white">{t.footer.services}</h2>
             {t.footer.serviceLinks.map((s) => (
@@ -27,7 +27,7 @@ export function Footer() {
             <a href="mailto:hallo@robotempo.com" className={link}>{t.footer.contact}</a>
             <Link href="/privacy" className={link}>{t.footer.privacy}</Link>
           </div>
-          <div className={col}>
+          <div className={`${col} col-span-2 md:col-span-1`}>
             <h2 className="font-sans text-base font-bold tracking-normal text-white">{t.manufacturer.footerTitle}</h2>
             <p className="m-0">{t.manufacturer.footerText}</p>
             <Link href="/fabrikanten" className="font-bold text-brand hover:text-white">{t.manufacturer.footerCta}</Link>
