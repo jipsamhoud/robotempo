@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Robotprofiel: Bram</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF;color:#0E1116;font-family:Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:'Space Grotesk',Inter,sans-serif;letter-spacing:-0.02em}
+a{color:#0E1116}a:hover{color:#C2410C}
+</style>
+</helmet>
+<div style="width: 100%; background: #FFFFFF; font-family: Inter, system-ui, sans-serif; color: #0E1116">
+
+<header style="border-bottom: 1px solid #E3E5E9">
+<div style="max-width: 1200px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #0E1116">
+<span style="width: 36px; height: 36px; border-radius: 10px; background: #0E1116; display: flex; align-items: center; justify-content: center; gap: 6px" aria-hidden="true"><span style="width: 7px; height: 7px; border-radius: 50%; background: #7CF3FF"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #7CF3FF"></span></span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px">Robotempo</span>
+</a>
+<nav aria-label="Hoofdmenu" style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; font-size: 15px">
+<a href="Robots.dc.html" style="text-decoration: none">Alle robots</a>
+<a href="Samenstellen.dc.html" style="text-decoration: none; background: #FF5B1A; color: #0E1116; font-weight: 600; padding: 12px 18px; border-radius: 999px">Robot inhuren</a>
+</nav>
+</div>
+</header>
+
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px 24px 0"><a href="Robots.dc.html" style="font-size: 15px">Terug naar alle robots</a></div>
+
+<section>
+<div style="max-width: 1200px; margin: 0 auto; padding: 24px 24px 96px; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+
+<aside style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 16px">
+<div style="height: 360px; border-radius: 32px; background: #DCE6FF; padding-top: 32px; box-sizing: border-box; display: flex; align-items: flex-end; justify-content: center; overflow: hidden"><dc-import name="RobotAvatar" kind="bram" size="300" hint-size="300px,300px"></dc-import></div>
+<div style="border: 1px solid #E3E5E9; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; font-size: 15px"><span style="color: #4A5260">Rol</span><span style="font-weight: 600">Vloerspecialist</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 15px"><span style="color: #4A5260">Dienst</span><span style="font-weight: 600">Nacht, 22.00 tot 06.00</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 15px"><span style="color: #4A5260">Werkt in</span><span style="font-weight: 600">Hotels en zorglocaties</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 15px"><span style="color: #4A5260">Uurtarief</span><span style="font-weight: 600">€8,25, alles inbegrepen</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 15px"><span style="color: #4A5260">Beschikbaar</span><span style="font-weight: 600; color: #12734F">Voorjaar 2027</span></div>
+<a href="Samenstellen.dc.html" style="text-align: center; text-decoration: none; background: #0E1116; color: #FFFFFF; font-weight: 600; font-size: 17px; padding: 16px; border-radius: 999px; margin-top: 6px">Bram inhuren</a>
+</div>
+</aside>
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span style="align-self: flex-start; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: #B6F0D6">Beschikbaar</span>
+<h1 style="margin: 0; font-size: 64px; line-height: 1.0">Hoi, ik ben Bram.</h1>
+<p style="margin: 0; font-size: 20px; line-height: 1.55; color: #3B4250">Ik maak vloeren schoon als iedereen slaapt. Lobby, gangen, restaurant. Ik vul zelf water bij, rij zelf naar mijn laadpunt en ga daarna verder waar ik gebleven was. Om zeven uur ben ik klaar en staat er een schone vloer.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 28px">Wat ik kan</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px">
+<sc-for list="{{skills}}" as="s" hint-placeholder-count="5">
+<div style="background: #F1F2F4; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#12734F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>{{s.name}}</div>
+<div style="font-size: 14px; color: #3B4250; line-height: 1.5">{{s.note}}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 28px">Wat ik (nog) niet doe</h2>
+<ul style="margin: 0; padding-left: 20px; font-size: 17px; line-height: 1.8; color: #3B4250"><li>Toiletten, tafels en andere oppervlakken</li><li>Hoeken en plinten zo grondig als een mens</li><li>Trappen</li><li>Ruimtes met veel losse spullen op de vloer</li></ul>
+<p style="margin: 0; font-size: 15px; color: #4A5260">Daarom werk ik het best naast een schoonmaker die de rest doet. Die kan zich dan richten op de kamers.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 28px">Een week met Bram</h2>
+<div style="overflow-x: auto; border: 1px solid #E3E5E9; border-radius: 20px">
+<table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 15px">
+<thead><tr style="background: #F7F8F9"><th scope="col" style="text-align: left; padding: 14px 18px">Voorbeeld</th><th scope="col" style="text-align: left; padding: 14px 18px">Uren per week</th><th scope="col" style="text-align: left; padding: 14px 18px">Kosten per week</th></tr></thead>
+<tbody>
+<tr style="border-top: 1px solid #E3E5E9"><td style="padding: 14px 18px">Elke nacht 8 uur</td><td style="padding: 14px 18px">56</td><td style="padding: 14px 18px; font-weight: 600">€462</td></tr>
+<tr style="border-top: 1px solid #E3E5E9"><td style="padding: 14px 18px">Doordeweeks 8 uur</td><td style="padding: 14px 18px">40</td><td style="padding: 14px 18px; font-weight: 600">€330</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div style="background: #F1F2F4; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0; font-size: 22px">Referenties</h2>
+<p style="margin: 0; font-size: 16px; color: #3B4250">Bram start in het voorjaar van 2027 bij de eerste pilotlocaties. Hier komen dan de gemeten resultaten en de ervaringen van die klanten.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      skills: [
+        { name: 'Vegen en zuigen', note: 'Harde vloeren en vloerkleed in openbare ruimtes.' },
+        { name: 'Schrobben', note: 'Drie tot vier uur per lading, daarna laadt hij zelf op.' },
+        { name: 'Dweilen', note: 'Tot acht uur achter elkaar.' },
+        { name: 'Zelf water bijvullen', note: 'Via een vast station, zonder dat iemand hoeft te helpen.' },
+        { name: 'Werkt in de nacht', note: 'Stil genoeg voor gangen bij hotelkamers. [CHECKEN IN PILOT]' },
+        { name: 'Rapporteert', note: 'Je ziet elke ochtend welke ruimtes klaar zijn.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

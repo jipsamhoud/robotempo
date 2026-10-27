@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.env*.local
+.env
+.DS_Store
+# Bronbestanden van de overdracht (uitgepakt in handoff/)
+/robotempo-handoff.zip
+/HANDOFF.md
+scripts/.api-parked/
+.claude/

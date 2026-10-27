@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Stel je ploeg samen</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F1F2F4;color:#0E1116;font-family:Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:'Space Grotesk',Inter,sans-serif;letter-spacing:-0.02em}
+a{color:#0E1116}a:hover{color:#C2410C}
+</style>
+</helmet>
+<div style="width: 100%; background: #F1F2F4; font-family: Inter, system-ui, sans-serif; color: #0E1116">
+
+<header style="border-bottom: 1px solid #E3E5E9; background: #FFFFFF">
+<div style="max-width: 1200px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #0E1116">
+<span style="width: 36px; height: 36px; border-radius: 10px; background: #0E1116; display: flex; align-items: center; justify-content: center; gap: 6px" aria-hidden="true"><span style="width: 7px; height: 7px; border-radius: 50%; background: #7CF3FF"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #7CF3FF"></span></span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px">Robotempo</span>
+</a>
+<nav aria-label="Hoofdmenu" style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; font-size: 15px">
+<a href="Robots.dc.html" style="text-decoration: none">Robots</a>
+<a href="Main.dc.html" style="text-decoration: none">Home</a>
+</nav>
+</div>
+</header>
+
+<div style="max-width: 1200px; margin: 0 auto; padding: 48px 24px 96px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 10px"><h1 style="margin: 0; font-size: 52px; line-height: 1.0">Stel je ploeg samen</h1><p style="margin: 0; font-size: 18px; color: #3B4250">Kies robots en uren. Je ziet direct wat het kost per week.</p></div>
+
+<sc-if value="{{isKies}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<div style="background: #FFFFFF; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 22px">1. Welke robots?</h2>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="3">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 12px; border-radius: 20px; background: #F7F8F9">
+<div style="width: 80px; height: 80px; border-radius: 16px; background: {{r.tint}}; padding-top: 8px; box-sizing: border-box; flex-shrink: 0; display: flex; align-items: flex-end; justify-content: center; overflow: hidden"><dc-import name="RobotAvatar" kind="{{r.kind}}" size="70" hint-size="70px,70px"></dc-import></div>
+<div style="flex: 1 1 200px; min-width: 0"><div style="font-weight: 600; font-size: 18px">{{r.name}}, {{r.role}}</div><div style="font-size: 14px; color: #4A5260">{{r.rateLabel}}</div></div>
+<div style="display: flex; align-items: center; gap: 8px">
+<button type="button" onClick="{{r.dec}}" aria-label="{{r.decLabel}}" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #0E1116; background: #FFFFFF; font: inherit; font-size: 22px; font-weight: 600; cursor: pointer">−</button>
+<span style="min-width: 32px; text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700" aria-live="polite">{{r.n}}</span>
+<button type="button" onClick="{{r.inc}}" aria-label="{{r.incLabel}}" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #0E1116; background: #0E1116; color: #FFFFFF; font: inherit; font-size: 22px; font-weight: 600; cursor: pointer">+</button>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="background: #FFFFFF; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 22px">2. Welke dienst?</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 10px" role="group" aria-label="Dienst">
+<sc-for list="{{shifts}}" as="s" hint-placeholder-count="3">
+<button type="button" onClick="{{s.pick}}" aria-pressed="{{s.pressed}}" style="flex: 1 1 160px; text-align: left; font: inherit; padding: 16px; min-height: 44px; border-radius: 18px; border: 2px solid {{s.border}}; background: {{s.bg}}; cursor: pointer"><span style="display: block; font-weight: 600; font-size: 16px">{{s.label}}</span><span style="display: block; font-size: 14px; color: #4A5260">{{s.sub}}</span></button>
+</sc-for>
+</div>
+<h2 style="margin: 8px 0 0; font-size: 22px">3. Hoeveel dagen per week?</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 10px" role="group" aria-label="Dagen per week">
+<sc-for list="{{dayOpts}}" as="d" hint-placeholder-count="2">
+<button type="button" onClick="{{d.pick}}" aria-pressed="{{d.pressed}}" style="font: inherit; font-weight: 600; padding: 12px 22px; min-height: 44px; border-radius: 999px; border: 2px solid #0E1116; background: {{d.bg}}; color: {{d.fg}}; cursor: pointer">{{d.label}}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<aside style="flex: 1 1 340px; background: #0E1116; color: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 22px; color: #FFFFFF">Jouw ploeg</h2>
+<sc-for list="{{lines}}" as="l" hint-placeholder-count="2">
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px; color: #C9CDD4"><span>{{l.label}}</span><span style="color: #FFFFFF; font-weight: 600">{{l.amount}}</span></div>
+</sc-for>
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 15px; color: #C9CDD4">Kies minstens één robot.</p></sc-if>
+<div style="border-top: 1px solid #2C333D; padding-top: 16px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 14px; color: #C9CDD4">Per week</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 700">{{week}}</span>
+<span style="font-size: 14px; color: #C9CDD4">{{month}} per maand, {{hours}} robouren per week</span>
+</div>
+<div style="background: #1A1F27; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 14px; color: #C9CDD4">Inhuur die je naar schatting niet meer nodig hebt</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: #7CF3FF">{{avoided}} per week</span>
+<span style="font-size: 12px; color: #A9AFB8; line-height: 1.5">Indicatie op basis van een uitzendtarief van €31,50, een nachtbeveiliger van €52 en wat een robot per uur doet ten opzichte van een mens, voorzichtig gehalveerd. In de pilot meten we jouw werkelijke besparing.</span>
+</div>
+<button type="button" onClick="{{toForm}}" style="font: inherit; font-weight: 600; font-size: 17px; background: #FF5B1A; color: #0E1116; border: none; border-radius: 999px; padding: 16px; min-height: 44px; cursor: pointer">Vraag deze ploeg aan</button>
+<span style="font-size: 13px; color: #A9AFB8; text-align: center">Vrijblijvend. Alles inbegrepen: plaatsing, onderhoud en vervanging.</span>
+</aside>
+</div>
+</sc-if>
+
+<sc-if value="{{isGegevens}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<form style="flex: 999 1 560px; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px" aria-label="Je gegevens">
+<h2 style="margin: 0; font-size: 26px">Waar mogen de robots komen werken?</h2>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Naam<input type="text" style="font: inherit; font-weight: 400; font-size: 16px; padding: 14px; border: 1px solid #C9CDD4; border-radius: 12px"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Organisatie en plaats<input type="text" style="font: inherit; font-weight: 400; font-size: 16px; padding: 14px; border: 1px solid #C9CDD4; border-radius: 12px"></label>
+<div style="display: flex; flex-wrap: wrap; gap: 14px">
+<label style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Soort locatie<select style="font: inherit; font-weight: 400; font-size: 16px; padding: 14px; border: 1px solid #C9CDD4; border-radius: 12px; background: #FFFFFF"><option>Hotel</option><option>Zorglocatie</option><option>Bedrijventerrein of beveiliging</option><option>Vakantiepark</option><option>Anders</option></select></label>
+<label style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Kamers of bedden<input type="number" style="font: inherit; font-weight: 400; font-size: 16px; padding: 14px; border: 1px solid #C9CDD4; border-radius: 12px"></label>
+</div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Welk werk blijft nu liggen?<textarea rows="3" style="font: inherit; font-weight: 400; font-size: 16px; padding: 14px; border: 1px solid #C9CDD4; border-radius: 12px"></textarea></label>
+<div style="display: flex; flex-wrap: wrap; gap: 14px">
+<label style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">E-mail<input type="email" style="font: inherit; font-weight: 400; font-size: 16px; padding: 14px; border: 1px solid #C9CDD4; border-radius: 12px"></label>
+<label style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Telefoon<input type="tel" style="font: inherit; font-weight: 400; font-size: 16px; padding: 14px; border: 1px solid #C9CDD4; border-radius: 12px"></label>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px">
+<button type="button" onClick="{{toKies}}" style="font: inherit; font-weight: 600; font-size: 16px; background: #FFFFFF; color: #0E1116; border: 2px solid #0E1116; border-radius: 999px; padding: 14px 22px; min-height: 44px; cursor: pointer">Terug</button>
+<button type="button" onClick="{{toKlaar}}" style="flex: 1; font: inherit; font-weight: 600; font-size: 17px; background: #0E1116; color: #FFFFFF; border: none; border-radius: 999px; padding: 14px 22px; min-height: 44px; cursor: pointer">Verstuur aanvraag</button>
+</div>
+</form>
+<aside style="flex: 1 1 340px; background: #FFFFFF; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-size: 20px">Je aanvraag</h2>
+<sc-for list="{{lines}}" as="l" hint-placeholder-count="2"><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px"><span style="color: #4A5260">{{l.label}}</span><span style="font-weight: 600">{{l.amount}}</span></div></sc-for>
+<div style="border-top: 1px solid #E3E5E9; padding-top: 10px; display: flex; justify-content: space-between; font-weight: 600"><span>Per week</span><span>{{week}}</span></div>
+</aside>
+</div>
+</sc-if>
+
+<sc-if value="{{isKlaar}}" hint-placeholder-val="{{ false }}">
+<div style="background: #FFFFFF; border-radius: 28px; padding: 48px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
+<div style="flex: 0 0 200px; height: 200px; border-radius: 24px; background: #DCE6FF; padding-top: 16px; box-sizing: border-box; display: flex; align-items: flex-end; justify-content: center; overflow: hidden"><dc-import name="RobotAvatar" kind="bram" size="176" hint-size="176px,176px"></dc-import></div>
+<div style="flex: 1 1 400px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 40px">Bedankt. Je ploeg staat klaar om kennis te maken.</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #3B4250">We bellen je binnen twee werkdagen. We starten in het voorjaar van 2027 met tien pilotlocaties en kijken samen of jouw locatie daarbij past.</p>
+<a href="Main.dc.html" style="align-self: flex-start; font-weight: 600">Terug naar home</a>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { n: { bram: 2, mila: 1, joop: 0, wout: 0 }, shift: 'nacht', days: 7, step: 'kies' }; }
+  renderVals() {
+    const fmt = (x) => '€' + Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const st = this.state;
+    const shiftMap = { nacht: 8, dag: 12, klok: 20 };
+    const h = shiftMap[st.shift];
+    const defs = [
+      { kind: 'bram', name: 'Bram', role: 'vloerspecialist', rate: 8.25, prod: 0.6, base: 31.5, tint: '#DCE6FF', rateLabel: '€8,25 per uur' },
+      { kind: 'mila', name: 'Mila', role: 'roomservice', rate: 4.95, prod: 0.4, base: 31.5, tint: '#FFE1D3', rateLabel: '€4,95 per uur' },
+      { kind: 'joop', name: 'Joop', role: 'rondebrenger', rate: 5.5, prod: 0.4, base: 31.5, tint: '#D3F2E6', rateLabel: '€5,50 per uur' },
+      { kind: 'wout', name: 'Wout', role: 'nachtwaker', rate: 18, prod: 1.0, base: 52, tint: '#DDE5EF', rateLabel: '€18 per uur, met meldkamer' }
+    ];
+    let week = 0, hours = 0, avoided = 0;
+    const lines = [];
+    const rows = defs.map((d) => {
+      const n = st.n[d.kind];
+      const hrs = n * h * st.days;
+      const cost = hrs * d.rate;
+      week += cost; hours += hrs; avoided += hrs * d.prod * d.base * 0.5;
+      if (n > 0) lines.push({ label: n + 'x ' + d.name + ', ' + hrs + ' uur', amount: fmt(cost) });
+      const set = (v) => { const next = Object.assign({}, st.n); next[d.kind] = Math.max(0, Math.min(5, v)); this.setState({ n: next }); };
+      return Object.assign({}, d, { n: n, dec: () => set(n - 1), inc: () => set(n + 1), decLabel: 'Eén ' + d.name + ' minder', incLabel: 'Eén ' + d.name + ' meer' });
+    });
+    const shiftOpts = [['nacht', 'Nachtdienst', '22.00 tot 06.00, 8 uur'], ['dag', 'Dagdienst', '07.00 tot 19.00, 12 uur'], ['klok', 'Rond de klok', '20 uur, met laadpauzes']];
+    const shifts = shiftOpts.map((o) => ({ label: o[1], sub: o[2], pressed: st.shift === o[0] ? 'true' : 'false', bg: st.shift === o[0] ? '#FFF1EA' : '#FFFFFF', border: st.shift === o[0] ? '#FF5B1A' : '#D9DCE1', pick: () => this.setState({ shift: o[0] }) }));
+    const dayOpts = [[7, '7 dagen'], [5, 'Doordeweeks']].map((o) => ({ label: o[1], pressed: st.days === o[0] ? 'true' : 'false', bg: st.days === o[0] ? '#0E1116' : '#FFFFFF', fg: st.days === o[0] ? '#FFFFFF' : '#0E1116', pick: () => this.setState({ days: o[0] }) }));
+    return {
+      rows: rows, shifts: shifts, dayOpts: dayOpts, lines: lines, isEmpty: lines.length === 0,
+      week: fmt(week), month: fmt(week * 52 / 12), hours: hours, avoided: fmt(avoided),
+      isKies: st.step === 'kies', isGegevens: st.step === 'gegevens', isKlaar: st.step === 'klaar',
+      toForm: () => { if (hours > 0) this.setState({ step: 'gegevens' }); },
+      toKies: () => this.setState({ step: 'kies' }),
+      toKlaar: () => this.setState({ step: 'klaar' })
+    };
+  }
+}
+</script>
+</body>
+</html>
